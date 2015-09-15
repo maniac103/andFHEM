@@ -173,7 +173,7 @@ dependencies {
     //noinspection GradleDependency
     compile 'com.android.support:support-v4:22.0.0@aar'
     //noinspection GradleDependency
-    compile 'com.android.support:appcompat-v7:22.0.0'
+    compile 'com.android.support:appcompat-v7:22.1.0'
     //noinspection GradleDependency
     compile 'com.google.android.gms:play-services:7.3.0'
     compile 'commons-net:commons-net:3.3'
