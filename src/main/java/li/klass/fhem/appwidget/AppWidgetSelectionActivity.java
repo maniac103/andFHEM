@@ -40,7 +40,6 @@ import javax.inject.Inject;
 
 import li.klass.fhem.AndFHEMApplication;
 import li.klass.fhem.R;
-import li.klass.fhem.activities.core.FragmentBaseActivity;
 import li.klass.fhem.appwidget.service.AppWidgetUpdateService;
 import li.klass.fhem.appwidget.view.WidgetSize;
 import li.klass.fhem.appwidget.view.WidgetType;
@@ -173,7 +172,7 @@ public abstract class AppWidgetSelectionActivity extends ActionBarActivity imple
                     .replace(android.R.id.content, fragment)
                     .commitAllowingStateLoss();
         } catch (IllegalStateException e) {
-            Log.e(FragmentBaseActivity.class.getName(), "error while switching to fragment " +
+            Log.e(getClass().getSimpleName(), "error while switching to fragment " +
                     DeviceNameSelectionFragment.class.getName(), e);
         }
     }
