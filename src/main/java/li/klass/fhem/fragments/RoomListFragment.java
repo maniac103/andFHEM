@@ -24,6 +24,7 @@
 
 package li.klass.fhem.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
@@ -176,6 +177,11 @@ public class RoomListFragment extends BaseFragment implements TopLevelFragment {
             }
         });
         getActivity().startService(intent);
+    }
+
+    @Override
+    public CharSequence getTitle(Context context) {
+        return context.getString(R.string.roomList);
     }
 
     protected boolean isRoomSelectable(String roomName) {

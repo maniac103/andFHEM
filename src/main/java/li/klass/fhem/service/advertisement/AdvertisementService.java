@@ -46,6 +46,7 @@ import javax.inject.Singleton;
 
 import li.klass.fhem.AndFHEMApplication;
 import li.klass.fhem.R;
+import li.klass.fhem.activities.PremiumActivity;
 import li.klass.fhem.constants.Actions;
 import li.klass.fhem.constants.BundleExtraKeys;
 import li.klass.fhem.fragments.FragmentType;
@@ -129,9 +130,8 @@ public class AdvertisementService {
         selfAd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Actions.SHOW_FRAGMENT);
-                intent.putExtra(BundleExtraKeys.FRAGMENT, FragmentType.PREMIUM);
-                activity.sendBroadcast(intent);
+                Intent intent = new Intent(activity, PremiumActivity.class);
+                activity.startActivity(intent);
             }
         });
         container.addView(selfAd);

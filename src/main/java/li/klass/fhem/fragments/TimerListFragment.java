@@ -192,4 +192,9 @@ public class TimerListFragment extends BaseFragment {
 
         return super.onContextItemSelected(item);
     }
+
+    @Override
+    public CharSequence getTitle(Context context) {
+        return context.getString(R.string.timer);
+    }
 }

@@ -32,7 +32,6 @@ import li.klass.fhem.fragments.ConnectionListFragment;
 import li.klass.fhem.fragments.ConversionFragment;
 import li.klass.fhem.fragments.FavoritesFragment;
 import li.klass.fhem.fragments.FloorplanFragment;
-import li.klass.fhem.fragments.PremiumFragment;
 import li.klass.fhem.fragments.RoomDetailFragment;
 import li.klass.fhem.fragments.RoomListFragment;
 import li.klass.fhem.fragments.SendCommandFragment;
@@ -58,7 +57,6 @@ import li.klass.fhem.fragments.weekprofile.IntervalWeekProfileFragment;
                 FromToWeekProfileFragment.class,
                 IntervalWeekProfileFragment.class,
                 FloorplanFragment.class,
-                PremiumFragment.class,
                 RoomDetailFragment.class,
                 SendCommandFragment.class,
                 DeviceNameListFragment.class,

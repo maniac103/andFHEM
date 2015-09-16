@@ -24,6 +24,7 @@
 
 package li.klass.fhem.fragments.core;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -109,5 +110,14 @@ public class DeviceDetailFragment extends BaseFragment {
             }
         });
         getActivity().startService(intent);
+    }
+
+    @Override
+    public CharSequence getTitle(Context context) {
+        String name = getArguments().getString(BundleExtraKeys.DEVICE_DISPLAY_NAME);
+        if (name == null) {
+            name = getArguments().getString(BundleExtraKeys.DEVICE_NAME);
+        }
+        return name;
     }
 }
