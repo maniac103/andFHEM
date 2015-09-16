@@ -249,7 +249,7 @@
     <string name="hdd_free">Free space</string>
     <string name="video_size">Video size</string>
 
-    <string name="connectionManage">Manage</string>
+    <string name="connectionManage">Manage\u2026</string>
     <string name="connectionCreate">Create a new connection</string>
     <string name="connectionName">Name</string>
     <string name="connectionType">Type</string>

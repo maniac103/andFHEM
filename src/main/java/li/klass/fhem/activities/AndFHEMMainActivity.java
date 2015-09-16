@@ -47,6 +47,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.common.base.Optional;
@@ -136,6 +137,7 @@ public class AndFHEMMainActivity extends AppCompatActivity implements
                                     String fragmentName = bundle.getString(FRAGMENT_NAME);
                                     fragmentType = getFragmentFor(fragmentName);
                                 }
+                                mDrawerLayout.closeDrawer(GravityCompat.START);
                                 switchToFragment(fragmentType, intent.getExtras());
                             } else if (action.equals(Actions.DO_UPDATE)) {
                                 refreshFragments();
@@ -235,9 +237,6 @@ public class AndFHEMMainActivity extends AppCompatActivity implements
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-            handleConnectionSpinner(actionBar);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
@@ -246,6 +245,7 @@ public class AndFHEMMainActivity extends AppCompatActivity implements
 
         initSwipeRefreshLayout();
         initDrawerLayout();
+        initConnectionSpinner();
 
         boolean hasFavorites = getIntent().getBooleanExtra(BundleExtraKeys.HAS_FAVORITES, true);
         if (savedInstanceState == null && !saveInstanceStateCalled) {
@@ -274,9 +274,11 @@ public class AndFHEMMainActivity extends AppCompatActivity implements
         switchToFragment(fragmentType, startupBundle);
     }
 
-    private void handleConnectionSpinner(ActionBar actionBar) {
-        availableConnectionDataAdapter = new AvailableConnectionDataAdapter(this, actionBar);
-        actionBar.setListNavigationCallbacks(availableConnectionDataAdapter, availableConnectionDataAdapter);
+    private void initConnectionSpinner() {
+        Spinner connectionSpinner = (Spinner) findViewById(R.id.connection_spinner);
+        availableConnectionDataAdapter = new AvailableConnectionDataAdapter(connectionSpinner);
+        connectionSpinner.setAdapter(availableConnectionDataAdapter);
+        connectionSpinner.setOnItemSelectedListener(availableConnectionDataAdapter);
         availableConnectionDataAdapter.doLoad();
     }
 
