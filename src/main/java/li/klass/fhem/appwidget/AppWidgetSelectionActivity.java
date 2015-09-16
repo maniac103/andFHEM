@@ -31,7 +31,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import java.util.List;
@@ -67,7 +67,7 @@ import static li.klass.fhem.constants.BundleExtraKeys.ROOM_SELECTABLE_CALLBACK;
 import static li.klass.fhem.fragments.RoomListFragment.RoomClickedCallback;
 import static li.klass.fhem.fragments.RoomListFragment.RoomSelectableCallback;
 
-public abstract class AppWidgetSelectionActivity extends ActionBarActivity implements ActionBar.TabListener {
+public abstract class AppWidgetSelectionActivity extends AppCompatActivity implements ActionBar.TabListener {
 
     public static final int TAG_DEVICES = 0;
     public static final int TAG_ROOMS = 1;
