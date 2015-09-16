@@ -26,6 +26,7 @@ package li.klass.fhem.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,6 +71,7 @@ public class RoomListFragment extends BaseFragment implements TopLevelFragment {
     private int emptyTextId = R.string.noRooms;
     private RoomSelectableCallback roomSelectableCallback;
     private RoomClickedCallback roomClickedCallback;
+    private ListView roomList;
 
     @Override
     public void setArguments(Bundle args) {
@@ -94,7 +96,7 @@ public class RoomListFragment extends BaseFragment implements TopLevelFragment {
         LinearLayout emptyView = (LinearLayout) layout.findViewById(R.id.emptyView);
         fillEmptyView(emptyView, getEmptyTextId(), container);
 
-        ListView roomList = (ListView) layout.findViewById(R.id.roomList);
+        roomList = (ListView) layout.findViewById(R.id.roomList);
         Reject.ifNull(roomList);
         roomList.setAdapter(adapter);
 
@@ -108,6 +110,14 @@ public class RoomListFragment extends BaseFragment implements TopLevelFragment {
         });
 
         return layout;
+    }
+
+    @Override
+    public boolean canChildScrollUp() {
+        if (ViewCompat.canScrollVertically(roomList, -1)) {
+            return true;
+        }
+        return super.canChildScrollUp();
     }
 
     protected int getEmptyTextId() {

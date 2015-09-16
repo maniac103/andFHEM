@@ -87,6 +87,11 @@ public class ConversionFragment extends BaseFragment {
     }
 
     @Override
+    protected boolean mayPullToRefresh() {
+        return false;
+    }
+
+    @Override
     public void update(boolean doUpdate) {
     }
 }
