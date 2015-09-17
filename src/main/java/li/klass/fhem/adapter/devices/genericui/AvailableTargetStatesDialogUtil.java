@@ -37,6 +37,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -159,7 +160,7 @@ public class AvailableTargetStatesDialogUtil {
                 private int dimProgress = 0;
 
                 @Override
-                public View getContentViewFor(Context context, D device) {
+                public void prepareDialogBuilder(final Context context, AlertDialog.Builder builder, final D device) {
                     TableLayout tableLayout = new TableLayout(context);
                     int initialProgress = 0;
                     if (device instanceof DimmableDevice) {
@@ -179,14 +180,16 @@ public class AvailableTargetStatesDialogUtil {
                         public String toDimUpdateText(D device, int progress) {
                             return null;
                         }
-                    }.createRow(LayoutInflater.from(context), device));
-                    return tableLayout;
-                }
+                    }.createRow(LayoutInflater.from(builder.getContext()), device));
 
-                @Override
-                public boolean onPositiveButtonClick(View view, Context context, D device) {
-                    callback.onTargetStateSelected(option, "" + dimProgress, device, context);
-                    return true;
+                    builder.setView(tableLayout);
+                    builder.setPositiveButton(R.string.okButton, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            callback.onTargetStateSelected(option, "" + dimProgress, device, context);
+                            dialog.dismiss();
+                        }
+                    });
                 }
             };
         } else if (setListValue instanceof SetListGroupValue) {
@@ -195,50 +198,41 @@ public class AvailableTargetStatesDialogUtil {
             return new TypeHandler<D>() {
 
                 @Override
-                public View getContentViewFor(final Context context, final D device) {
-                    ListView listView = new ListView(context);
-                    listView.setAdapter(new ArrayAdapter<>(context,
-                            android.R.layout.simple_list_item_1, groupStates));
-                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void prepareDialogBuilder(final Context context, AlertDialog.Builder builder, final D device) {
+                    final ListAdapter adapter = new ArrayAdapter<>(context,
+                            android.R.layout.simple_list_item_1, groupStates);
+                    builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
                         @Override
-                        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                            String selection = groupStates.get(position);
+                        public void onClick(DialogInterface dialog, int which) {
+                            String selection = groupStates.get(which);
                             callback.onTargetStateSelected(option, selection, device, context);
-                            dialog.dismiss();
                         }
                     });
-
-                    return listView;
-                }
-
-                @Override
-                boolean requiresPositiveButton() {
-                    return false;
                 }
             };
         } else if (specialDeviceState != null) {
             return new TypeHandler<D>() {
-
                 private EditText editText;
 
                 @Override
-                public View getContentViewFor(Context context, D device) {
+                public void prepareDialogBuilder(final Context context, AlertDialog.Builder builder, final D device) {
                     editText = new EditText(context);
-                    return editText;
-                }
+                    builder.setView(editText);
 
-                @Override
-                public boolean onPositiveButtonClick(View view, Context context, D device) {
-                    Editable value = editText.getText();
-                    String text = value == null ? "" : value.toString();
+                    builder.setPositiveButton(R.string.okButton, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Editable value = editText.getText();
+                            String text = value == null ? "" : value.toString();
 
-                    if (isValidAdditionalInformationValue(text, specialDeviceState)) {
-                        callback.onTargetStateSelected(option, text, device, context);
-                        return true;
-                    } else {
-                        DialogUtil.showAlertDialog(context, R.string.error, R.string.invalidInput);
-                        return false;
-                    }
+                            if (isValidAdditionalInformationValue(text, specialDeviceState)) {
+                                callback.onTargetStateSelected(option, text, device, context);
+                                dialog.dismiss();
+                            } else {
+                                DialogUtil.showAlertDialog(context, R.string.error, R.string.invalidInput);
+                            }
+                        }
+                    });
                 }
             };
         } else {
@@ -253,27 +247,15 @@ public class AvailableTargetStatesDialogUtil {
         if (typeHandler == null) {
             return true;
         }
-        final View view = typeHandler.getContentViewFor(context, device);
         AlertDialog.Builder builder = new AlertDialog.Builder(context)
-                .setTitle(R.string.stateAppendix)
-                .setView(view)
+                .setTitle(context.getString(R.string.stateAppendix, option))
                 .setNegativeButton(R.string.cancelButton, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                     }
                 });
+        typeHandler.prepareDialogBuilder(context, builder, device);
 
-        if (typeHandler.requiresPositiveButton()) {
-            builder.setPositiveButton(R.string.okButton, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    if (typeHandler.onPositiveButtonClick(view, context, device)) {
-                        dialog.dismiss();
-                    }
-                }
-            });
-        }
-
-        AlertDialog subDialog = builder.show();
-        typeHandler.setDialog(subDialog);
+        builder.show();
         return false;
     }
 
@@ -281,21 +263,7 @@ public class AvailableTargetStatesDialogUtil {
         <D extends FhemDevice<D>> void onTargetStateSelected(String state, String subState, D device, Context context);
     }
 
-    public static abstract class TypeHandler<D> {
-        Dialog dialog;
-
-        abstract View getContentViewFor(Context context, D device);
-
-        boolean onPositiveButtonClick(View view, Context context, D device) {
-            return true;
-        }
-
-        boolean requiresPositiveButton() {
-            return true;
-        }
-
-        public void setDialog(Dialog dialog) {
-            this.dialog = dialog;
-        }
+    private interface TypeHandler<D> {
+        void prepareDialogBuilder(Context context, AlertDialog.Builder builder, D device);
     }
 }
