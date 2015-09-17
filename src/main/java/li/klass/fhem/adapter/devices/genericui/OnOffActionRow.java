@@ -44,6 +44,7 @@ import li.klass.fhem.constants.Actions;
 import li.klass.fhem.constants.BundleExtraKeys;
 import li.klass.fhem.domain.core.FhemDevice;
 import li.klass.fhem.service.intent.DeviceIntentService;
+import li.klass.fhem.widget.CheckableButton;
 
 public class OnOffActionRow<T extends FhemDevice> {
 
@@ -71,8 +72,8 @@ public class OnOffActionRow<T extends FhemDevice> {
     public TableRow createRow(LayoutInflater inflater, final T device, Context context) {
         TableRow tableRow = (TableRow) inflater.inflate(layoutId, null);
         TextView descriptionView = ((TextView) tableRow.findViewById(R.id.description));
-        Button onButton = findOnButton(tableRow);
-        Button offButton = findOffButton(tableRow);
+        CheckableButton onButton = (CheckableButton) findOnButton(tableRow);
+        CheckableButton offButton = (CheckableButton) findOffButton(tableRow);
 
         String text = description.isPresent() ? context.getString(description.get()) : device.getAliasOrName();
         descriptionView.setText(text);
@@ -85,6 +86,9 @@ public class OnOffActionRow<T extends FhemDevice> {
         offButton.setOnClickListener(createListener(context, device, offStateName));
         offButton.setText(getOffStateText(device, context));
 
+        boolean on = isOn(device);
+        onButton.setChecked(on);
+        offButton.setChecked(!on);
         if (isOn(device)) {
             onButton.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.theme_toggle_on_normal));
             offButton.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.theme_toggle_default_normal));
