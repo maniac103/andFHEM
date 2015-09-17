@@ -228,6 +228,19 @@ public class CULHMDevice extends DimmableContinuousStatesDevice<CULHMDevice>
         });
     }
 
+    @XmllistAttribute("state")
+    public void setState(String value, DeviceNode node) {
+        // Homematic devices have 'set_' preprended to their state as long as
+        // it hasn't been acknowledged; we need to remove that as it otherwise
+        // breaks the assumptions the device specific code makes about the value - e.g.
+        // dimming devices expect to be able to cast this to an int
+        // TODO: convert this into a 'pending' flag?
+        if (value.startsWith("set_")) {
+            value = value.substring(4);
+        }
+        super.setState(value, node);
+    }
+
     public SubType getSubType() {
         return subType;
     }
