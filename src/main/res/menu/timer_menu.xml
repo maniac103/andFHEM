@@ -24,36 +24,17 @@
   ~   Boston, MA  02110-1301  USA
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <LinearLayout android:id="@+id/emptyView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:orientation="vertical"
-            android:visibility="gone"
-            />
-
-        <ListView android:layout_height="fill_parent"
-            android:layout_width="fill_parent"
-            android:id="@+id/connectionList"
-            android:layout_above="@+id/adContainer"
-            style="@style/listView"/>
-
-    </FrameLayout>
-
-    <LinearLayout android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/adContainer"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true" />
-
-</LinearLayout>
+    <item
+        android:id="@+id/reset"
+        android:title="@string/reset"
+        android:icon="@drawable/ic_menu_reset"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/save"
+        android:title="@string/save"
+        android:icon="@drawable/ic_menu_save"
+        app:showAsAction="always" />
+</menu>
