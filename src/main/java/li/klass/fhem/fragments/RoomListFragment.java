@@ -50,7 +50,6 @@ import li.klass.fhem.constants.Actions;
 import li.klass.fhem.constants.BundleExtraKeys;
 import li.klass.fhem.constants.ResultCodes;
 import li.klass.fhem.fragments.core.BaseFragment;
-import li.klass.fhem.fragments.core.TopLevelFragment;
 import li.klass.fhem.service.advertisement.AdvertisementService;
 import li.klass.fhem.service.intent.RoomListIntentService;
 import li.klass.fhem.util.FhemResultReceiver;
@@ -64,7 +63,7 @@ import static li.klass.fhem.constants.BundleExtraKeys.ROOM_LIST;
 import static li.klass.fhem.constants.BundleExtraKeys.ROOM_NAME;
 import static li.klass.fhem.constants.BundleExtraKeys.ROOM_SELECTABLE_CALLBACK;
 
-public class RoomListFragment extends BaseFragment implements TopLevelFragment {
+public class RoomListFragment extends BaseFragment {
 
     @Inject
     AdvertisementService advertisementService;
