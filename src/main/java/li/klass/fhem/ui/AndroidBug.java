@@ -55,7 +55,7 @@ public class AndroidBug {
     public static View handleColorStateBug(BugHandler bugHandler) {
         try {
             return bugHandler.defaultAction();
-        } catch (Exception e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             LOG.error("color state bug encountered", e);
             return bugHandler.bugEncountered();
         }
@@ -75,9 +75,6 @@ public class AndroidBug {
                 return null;
             }
         });
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            DialogUtil.showAlertDialog(context, R.string.androidBugDialogDatePickerTitle, R.string.androidBugDialogDatePickerContent);
-        }
     }
 
     public interface BugHandler {
