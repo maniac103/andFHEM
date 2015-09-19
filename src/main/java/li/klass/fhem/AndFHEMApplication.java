@@ -30,6 +30,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.StrictMode;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.google.common.collect.Lists;
@@ -49,7 +50,7 @@ import li.klass.fhem.util.InstalledApplications;
 
 import static li.klass.fhem.constants.PreferenceKeys.APPLICATION_VERSION;
 
-public class AndFHEMApplication extends Application {
+public class AndFHEMApplication extends MultiDexApplication {
     public static final String TAG = AndFHEMApplication.class.getName();
     public static final String ANDFHEM_MAIL = "andfhem@klass.li";
     public static final String AD_UNIT_ID = "a14fae70fa236de";
